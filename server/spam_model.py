@@ -17,7 +17,7 @@ class SpamDetector:
         # Split the data
         X_train, X_test, y_train, y_test = train_test_split(emails, labels, test_size=0.2, random_state=42)
 
-        # Create a pipeline
+        # Pipeline
         self.model = Pipeline([
             ('tfidf', TfidfVectorizer(max_features=5000, ngram_range=(1, 2))),
             ('classifier', RandomForestClassifier(n_estimators=100, random_state=42))
