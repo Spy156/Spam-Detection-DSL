@@ -8,7 +8,7 @@ CORS(app)
 
 spam_detector = SpamDetector()
 
-# Load the model if it exists, otherwise it will be trained when needed
+
 if os.path.exists('spam_model.joblib'):
     spam_detector.load_model()
 
@@ -17,16 +17,14 @@ def detect_spam():
     data = request.json
     email_content = data.get('email', '')
     
-    # If the model hasn't been loaded or trained yet, train it
+   
     if spam_detector.model is None:
-        # This is where you would typically load your own dataset
-        # For demonstration, we're using a very small example dataset
         emails = [
             "Free offer! Click now!", "Meeting at 3pm tomorrow",
             "Claim your prize! Limited time!", "Project report due Friday",
             "You've won! Contact us now!", "Lunch meeting with clients"
         ]
-        labels = [1, 0, 1, 0, 1, 0]  # 1 for spam, 0 for not spam
+        labels = [1, 0, 1, 0, 1, 0]
         spam_detector.train(emails, labels)
         spam_detector.save_model()
     
