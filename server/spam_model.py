@@ -1,6 +1,7 @@
 import joblib
 import os
 import numpy as np
+import pandas as pd
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.naive_bayes import MultinomialNB
 from sklearn.ensemble import RandomForestClassifier
@@ -11,13 +12,15 @@ from sklearn.pipeline import Pipeline
 class SpamDetector:
     def __init__(self):
         self.model = None
-        self.vectorizer = None
 
-    def train(self, emails, labels):
-        # Split the data
-        X_train, X_test, y_train, y_test = train_test_split(emails, labels, test_size=0.2, random_state=42)
+    def train_from_csv(self, csv_path):
+        df = pd.read_csv(csv_path)
+        
+        X = df['text']
+        y = df['label']
 
-        # Pipeline
+        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
         self.model = Pipeline([
             ('tfidf', TfidfVectorizer(max_features=5000, ngram_range=(1, 2))),
             ('classifier', RandomForestClassifier(n_estimators=100, random_state=42))
